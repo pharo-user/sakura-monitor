@@ -1,13 +1,21 @@
 # sakura-monitor
 a simple monitor application to check our platform health
 
+## program execution
+
+write a short script named sakura_monitor.sh
+
+    source ./sendgrid.env
+    python3 sakura_monitor.py
+
+and call it every 10 minutes
+
+    */10 * * * * /usr/local/bin/sakura_monitor.sh
+
+
 ## HOW TO SET SENDGRID API KEY
 
 echo "export SENDGRID_API_KEY='YOUR_API_KEY'" > sendgrid.env
-
-echo "sendgrid.env" >> .gitignore
-
-source ./sendgrid.env
 
 
 ## config.json

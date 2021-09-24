@@ -21,25 +21,17 @@ the list of url to be GET'd
 the list of email to send alarm
 
 
-  {
-  
-    "hosts" : [
-    
+    {
+      "hosts" : [
       "127.0.0.1"
-      
-    ],
+      ],
     
-    "urls" : [
+      "urls" : [
+        "https://sakura.eco/api/mheck?shop=1"
+      ],
     
-      "https://sakura.eco/api/mheck?shop=1"
-      
-    ],
-    
-    "emails" : [
-    
-      "leonardo.skymax@gmail.com"
-      
-    ]
-    
-}
+      "emails" : [
+        "leonardo.skymax@gmail.com"
+      ]
+  }
 

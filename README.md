@@ -33,5 +33,5 @@ the list of email to send alarm
       "emails" : [
         "leonardo.skymax@gmail.com"
       ]
-  }
+    }
 

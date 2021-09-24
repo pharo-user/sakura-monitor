@@ -22,14 +22,24 @@ the list of email to send alarm
 
 
   {
+  
     "hosts" : [
+    
       "127.0.0.1"
+      
     ],
+    
     "urls" : [
+    
       "https://sakura.eco/api/mheck?shop=1"
+      
     ],
+    
     "emails" : [
+    
       "leonardo.skymax@gmail.com"
+      
     ]
+    
 }
 

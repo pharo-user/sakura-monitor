@@ -74,10 +74,14 @@ def report_problem(emails, errors) :
     msg_to = 'leonardo.skymax@gmail.com'
     subject = 'crash'
     content = 'server crashed'
-    status,msg = send_email(msg_from, msg_to, subject, content)
-    print(msg)
-    if status != 'success' :
-        print('unable to report errors')
+    try :
+        status,msg = send_email(msg_from, msg_to, subject, content)
+    except Exception as inst :
+        print('report problem failed ' + str(inst))
+    else :
+        print(msg)
+        if status != 'success' :
+            print('unable to report errors : status '+status)
 
 if __name__ == '__main__':
     diag = '-t' in sys.argv

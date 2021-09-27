@@ -1,6 +1,7 @@
 #
 #   write a short script named sakura_monitor.sh
 #
+#   export SENDGRID_API_KEY=5074504755734985745'43752745
 #   python3 sakura_monitor.py
 #
 #   and call it every 10 minutes
@@ -20,14 +21,16 @@ def read_config(nf) :
     else :
         return []
 
-def send_email(msg_from, msg_to, subject, content) :
-    url = 'https://api.sendgrid.com/v3/mail/send'
+def send_email(mailer_url, msg_from, emails, subject, errors) :
     access_token = os.environ.get('SENDGRID_API_KEY')
     print('access token '+access_token)
     headers = {'Authorization' : 'Bearer '+access_token, 'Content-Type' : 'application/json' }
+    
+    msg_to = list( map( lambda s : { 'email': s }, emails))
+    content = "".join(list( map( lambda s : '<p>'+s+'</p>' , errors)))
+
     data = { 
-        'personalizations' : [{ 
-            'to' : [{ 'email' : msg_to }]}],
+        'personalizations' : [{ 'to' : msg_to  }],
         'from' : { 'email' : msg_from },
         'subject' : subject, 
         'content' : [{
@@ -39,7 +42,7 @@ def send_email(msg_from, msg_to, subject, content) :
     print(headers, data)
 
     try:
-        response = requests.post(url, headers=headers, json=data)
+        response = requests.post(mailer_url, headers=headers, json=data)
     except requests.ConnectionError as error:
         return 'error',error
     except requests.execptions.HTTPError as error:
@@ -69,13 +72,9 @@ def check_server(host) :
         return 'error','ping fail'
 
 
-def report_problem(emails, errors) :
-    msg_from = 'leo@sakura.eco'
-    msg_to = 'leonardo.skymax@gmail.com'
-    subject = 'crash'
-    content = 'server crashed'
+def report_problem(mailer_url, msg_from, emails, subject, errors) :
     try :
-        status,msg = send_email(msg_from, msg_to, subject, content)
+        status,msg = send_email(mailer_url, msg_from, emails, subject, errors)
     except Exception as inst :
         print('report problem failed ' + str(inst))
     else :
@@ -98,19 +97,19 @@ if __name__ == '__main__':
         status,msg = check_server(host)
         print('check_server '+host+' : '+msg)
         if status != 'success' :
-            errors.append(msg)
+            errors.append("check_server "+host+ " : "+ msg)
 
     # check backend server
     for url in config["urls"] : 
         status,msg = check_backend(url)
         print('check_backend '+url+' : '+msg)
         if status != 'success' :
-            errors.append(msg)
+            errors.append("check_backend failed "+url+" : "+msg)
 
     # report problem, if any
     if len(errors) > 0 :
         print('test failed')
         print(errors)
-        report_problem(config["emails"], errors)
+        report_problem(config["mailer_url"], config["mail_from"], config["emails"], config["mail_subject"], errors)
     else :
         print('test successfull')

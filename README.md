@@ -5,18 +5,13 @@ a simple monitor application to check our platform health
 
 write a short script named sakura_monitor.sh
 
-    source ./sendgrid.env
+    cd /home/your_user/sakura-monitor
+    export SENDGRID_API_KEY='43290423840234804803248'
     python3 sakura_monitor.py
 
 and call it every 10 minutes
 
     */10 * * * * /usr/local/bin/sakura_monitor.sh
-
-
-## HOW TO SET SENDGRID API KEY
-
-echo "export SENDGRID_API_KEY='YOUR_API_KEY'" > sendgrid.env
-
 
 ## config.json
 
@@ -40,6 +35,9 @@ the list of email to send alarm
     
       "emails" : [
         "leonardo.skymax@gmail.com"
-      ]
+      ],
+
+      "mailer_url" : "https::/yourmailer.com/api/send"
+
     }
 

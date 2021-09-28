@@ -21,7 +21,7 @@ the list of hosts to be pinged
 
 the list of url to be GET'd
 
-the list of email to send alarm
+the list of email to which send alarm
 
 
     {
@@ -37,7 +37,11 @@ the list of email to send alarm
         "leonardo.skymax@gmail.com"
       ],
 
-      "mailer_url" : "https::/yourmailer.com/api/send"
+      "mailer_url" : "https::/yourmailer.com/api/send",
+      
+      "mail_from" : "leo@sakura.eco",
+      
+      "mail_subject" : "sakura_monitor alarm"
 
     }
 
